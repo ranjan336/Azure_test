@@ -1,0 +1,32 @@
+{
+	"name": "uspopcopy",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "uspop_json",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "uspop",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Flatten1"
+				}
+			],
+			"script": "source(output(\n\t\tcity as string,\n\t\tloc as double[],\n\t\tpop as integer,\n\t\tstate as string,\n\t\t{_id} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'documentPerLine') ~> source1\nsource1 foldDown(unroll(loc, loc),\n\tmapColumn(\n\t\tcity,\n\t\tlocation = loc,\n\t\tpopulation = pop,\n\t\tstate,\n\t\tid = {_id}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Flatten1\nFlatten1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet',\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+		}
+	}
+}
