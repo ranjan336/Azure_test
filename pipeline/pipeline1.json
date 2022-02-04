@@ -20,6 +20,8 @@
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
 							"recursive": true,
+							"wildcardFolderPath": "US_population",
+							"wildcardFileName": "*.json",
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
@@ -30,7 +32,7 @@
 						"type": "ParquetSink",
 						"storeSettings": {
 							"type": "AzureBlobFSWriteSettings",
-							"copyBehavior": "FlattenHierarchy"
+							"copyBehavior": "MergeFiles"
 						},
 						"formatSettings": {
 							"type": "ParquetWriteSettings"
