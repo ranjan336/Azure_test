@@ -1,0 +1,41 @@
+{
+	"name": "uspop_json",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "US_population",
+				"fileSystem": "raw"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"city": {
+					"type": "string"
+				},
+				"loc": {
+					"type": "array",
+					"items": {
+						"type": "number"
+					}
+				},
+				"pop": {
+					"type": "integer"
+				},
+				"state": {
+					"type": "string"
+				},
+				"_id": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
