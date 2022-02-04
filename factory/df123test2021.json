@@ -1,0 +1,9 @@
+{
+	"name": "df123test2021",
+	"location": "westus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "73d33d35-5ec7-477f-8b32-82073d0318fd",
+		"tenantId": "ebe8af2d-8a6a-47f3-a5f4-cba6433f41ef"
+	}
+}
