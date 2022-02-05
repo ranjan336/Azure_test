@@ -10,7 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "uspop*.json",
 				"folderPath": "US_population",
 				"fileSystem": "raw"
 			}
