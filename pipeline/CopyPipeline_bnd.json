@@ -29,6 +29,8 @@
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
 							"recursive": true,
+							"wildcardFolderPath": "US_population ",
+							"wildcardFileName": "uspopdata*.json",
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
