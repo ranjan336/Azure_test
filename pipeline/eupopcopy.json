@@ -50,7 +50,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "eucovidpop",
+						"referenceName": "eucovidpops",
 						"type": "DatasetReference"
 					}
 				],

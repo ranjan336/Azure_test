@@ -1,5 +1,5 @@
 {
-	"name": "eucovidpop",
+	"name": "eucovidpops",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_blobpopul",
