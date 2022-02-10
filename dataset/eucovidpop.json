@@ -1,5 +1,5 @@
 {
-	"name": "uspopraw",
+	"name": "eucovidpop",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_blobpopul",
