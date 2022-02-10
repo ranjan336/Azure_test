@@ -50,13 +50,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "eucovidpops",
+						"referenceName": "eusource",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "eucovid1",
+						"referenceName": "eupostarget",
 						"type": "DatasetReference"
 					}
 				]
