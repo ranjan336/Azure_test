@@ -7,10 +7,6 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "df123test2021"
 		},
-		"AzureDataLakeStorage1_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
-		},
 		"ls_blobpopul_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_blobpopul'"
@@ -18,10 +14,6 @@
 		"ls_popdl_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_popdl'"
-		},
-		"AzureDataLakeStorage1_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://azrstrg1.dfs.core.windows.net"
 		},
 		"ls_popdl_properties_typeProperties_url": {
 			"type": "string",
@@ -54,17 +46,11 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"AzureDataLakeStorage1_accountKey": {
-						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
-					},
 					"ls_blobpopul_connectionString": {
 						"value": "[parameters('ls_blobpopul_connectionString')]"
 					},
 					"ls_popdl_accountKey": {
 						"value": "[parameters('ls_popdl_accountKey')]"
-					},
-					"AzureDataLakeStorage1_properties_typeProperties_url": {
-						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
 					},
 					"ls_popdl_properties_typeProperties_url": {
 						"value": "[parameters('ls_popdl_properties_typeProperties_url')]"

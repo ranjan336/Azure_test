@@ -5,17 +5,11 @@
 		"factoryName": {
 			"value": "df123test2021"
 		},
-		"AzureDataLakeStorage1_accountKey": {
-			"value": ""
-		},
 		"ls_blobpopul_connectionString": {
 			"value": ""
 		},
 		"ls_popdl_accountKey": {
 			"value": ""
-		},
-		"AzureDataLakeStorage1_properties_typeProperties_url": {
-			"value": "https://azrstrg1.dfs.core.windows.net"
 		},
 		"ls_popdl_properties_typeProperties_url": {
 			"value": "https://covidsadl1.dfs.core.windows.net"
