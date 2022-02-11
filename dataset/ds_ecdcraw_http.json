@@ -3,7 +3,13 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_ecdedata",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"burl": {
+					"value": "@dataset().burl",
+					"type": "Expression"
+				}
+			}
 		},
 		"parameters": {
 			"rurl": {
