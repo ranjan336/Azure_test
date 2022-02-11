@@ -2,7 +2,7 @@
 	"name": "ls_ecdedata",
 	"properties": {
 		"parameters": {
-			"burl": {
+			"baseurl": {
 				"type": "string"
 			}
 		},
