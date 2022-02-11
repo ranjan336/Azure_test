@@ -101,7 +101,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"rurl": {
-											"value": "@item().rurl",
+											"value": "@item().surl",
 											"type": "Expression"
 										},
 										"burl": {
