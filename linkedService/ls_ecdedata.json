@@ -2,14 +2,14 @@
 	"name": "ls_ecdedata",
 	"properties": {
 		"parameters": {
-			"baseurl": {
+			"burl": {
 				"type": "string"
 			}
 		},
 		"annotations": [],
 		"type": "HttpServer",
 		"typeProperties": {
-			"url": "@{linkedService().baseurl}",
+			"url": "@{linkedService().burl}",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous"
 		}
