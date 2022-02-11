@@ -1,0 +1,29 @@
+{
+	"name": "lk_ecdc",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_blobpopul",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "param_lk_ecdc.json",
+				"container": "paramecdcingest"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"surl": {
+					"type": "string"
+				},
+				"sfilename": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
