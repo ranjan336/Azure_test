@@ -12,10 +12,16 @@
 			"value": ""
 		},
 		"ls_ecdedata_properties_typeProperties_url": {
-			"value": "https://opendata.ecdc.europa.eu/"
+			"value": "https://github.com/cloudboxacademy/"
 		},
 		"ls_popdl_properties_typeProperties_url": {
 			"value": "https://covidsadl1.dfs.core.windows.net"
+		},
+		"tr_ecdc_file_ingest_properties_pl_ecdc_data_parameters_surl": {
+			"value": "covid19/blob/main/raw/main/ecdc_data/cases_deaths.csv"
+		},
+		"tr_ecdc_file_ingest_properties_pl_ecdc_data_parameters_sfilename": {
+			"value": "cases_death.csv"
 		}
 	}
 }
