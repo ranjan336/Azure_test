@@ -8,6 +8,9 @@
 		"parameters": {
 			"rurl": {
 				"type": "string"
+			},
+			"burl": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
