@@ -23,14 +23,6 @@
 			"type": "string",
 			"defaultValue": "https://covidsadl1.dfs.core.windows.net"
 		},
-		"tr_ecdc_file_ingest_properties_pl_ecdc_data_parameters_surl": {
-			"type": "string",
-			"defaultValue": "covid19/blob/main/raw/main/ecdc_data/cases_deaths.csv"
-		},
-		"tr_ecdc_file_ingest_properties_pl_ecdc_data_parameters_sfilename": {
-			"type": "string",
-			"defaultValue": "cases_death.csv"
-		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -69,12 +61,6 @@
 					},
 					"ls_popdl_properties_typeProperties_url": {
 						"value": "[parameters('ls_popdl_properties_typeProperties_url')]"
-					},
-					"tr_ecdc_file_ingest_properties_pl_ecdc_data_parameters_surl": {
-						"value": "[parameters('tr_ecdc_file_ingest_properties_pl_ecdc_data_parameters_surl')]"
-					},
-					"tr_ecdc_file_ingest_properties_pl_ecdc_data_parameters_sfilename": {
-						"value": "[parameters('tr_ecdc_file_ingest_properties_pl_ecdc_data_parameters_sfilename')]"
 					}
 				}
 			},

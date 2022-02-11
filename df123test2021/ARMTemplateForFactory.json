@@ -22,14 +22,6 @@
 		"ls_popdl_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://covidsadl1.dfs.core.windows.net"
-		},
-		"tr_ecdc_file_ingest_properties_pl_ecdc_data_parameters_surl": {
-			"type": "string",
-			"defaultValue": "covid19/blob/main/raw/main/ecdc_data/cases_deaths.csv"
-		},
-		"tr_ecdc_file_ingest_properties_pl_ecdc_data_parameters_sfilename": {
-			"type": "string",
-			"defaultValue": "cases_death.csv"
 		}
 	},
 	"variables": {
@@ -231,11 +223,11 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "copy_ecdc_data",
-						"type": "Copy",
+						"name": "lkp_param",
+						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
-							"timeout": "0.01:00:00",
+							"timeout": "7.00:00:00",
 							"retry": 0,
 							"retryIntervalInSeconds": 30,
 							"secureOutput": false,
@@ -244,84 +236,127 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "DelimitedTextSource",
+								"type": "JsonSource",
 								"storeSettings": {
-									"type": "HttpReadSettings",
-									"requestMethod": "GET"
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
+									"type": "JsonReadSettings"
 								}
 							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ds_ecdcraw_http",
+							"dataset": {
+								"referenceName": "lk_ecdc",
 								"type": "DatasetReference",
-								"parameters": {
-									"rurl": {
-										"value": "@pipeline().parameters.surl",
-										"type": "Expression"
-									},
-									"burl": {
-										"value": "@pipeline().parameters.sburl",
-										"type": "Expression"
-									}
-								}
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "executeperrec",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "lkp_param",
+								"dependencyConditions": [
+									"Succeeded"
+								]
 							}
 						],
-						"outputs": [
-							{
-								"referenceName": "ds_ecdcdata_dl",
-								"type": "DatasetReference",
-								"parameters": {
-									"filename": {
-										"value": "@pipeline().parameters.sfilename",
-										"type": "Expression"
-									}
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('lkp_param').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "copy_ecdc_data",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.01:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "HttpReadSettings",
+												"requestMethod": "GET"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "ds_ecdcraw_http",
+											"type": "DatasetReference",
+											"parameters": {
+												"rurl": {
+													"value": "@item().surl",
+													"type": "Expression"
+												},
+												"burl": {
+													"value": "@item().burl",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "ds_ecdcdata_dl",
+											"type": "DatasetReference",
+											"parameters": {
+												"filename": {
+													"value": "@item().sfilename",
+													"type": "Expression"
+												}
+											}
+										}
+									]
 								}
-							}
-						]
+							]
+						}
 					}
 				],
 				"policy": {
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
-				"parameters": {
-					"surl": {
-						"type": "string"
-					},
-					"sfilename": {
-						"type": "string"
-					},
-					"sburl": {
-						"type": "string"
-					}
-				},
 				"annotations": []
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/lk_ecdc')]",
 				"[concat(variables('factoryId'), '/datasets/ds_ecdcraw_http')]",
 				"[concat(variables('factoryId'), '/datasets/ds_ecdcdata_dl')]"
 			]
@@ -626,10 +661,7 @@
 							"referenceName": "pl_ecdc_data",
 							"type": "PipelineReference"
 						},
-						"parameters": {
-							"surl": "[parameters('tr_ecdc_file_ingest_properties_pl_ecdc_data_parameters_surl')]",
-							"sfilename": "[parameters('tr_ecdc_file_ingest_properties_pl_ecdc_data_parameters_sfilename')]"
-						}
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
