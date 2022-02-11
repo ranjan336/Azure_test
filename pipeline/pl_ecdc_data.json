@@ -54,6 +54,10 @@
 							"rurl": {
 								"value": "@pipeline().parameters.surl",
 								"type": "Expression"
+							},
+							"burl": {
+								"value": "@pipeline().parameters.sburl",
+								"type": "Expression"
 							}
 						}
 					}
@@ -77,6 +81,9 @@
 				"type": "string"
 			},
 			"sfilename": {
+				"type": "string"
+			},
+			"sburl": {
 				"type": "string"
 			}
 		},
