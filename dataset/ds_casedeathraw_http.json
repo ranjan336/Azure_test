@@ -5,12 +5,20 @@
 			"referenceName": "ls_ecdedata",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"rurl": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "HttpServerLocation",
-				"relativeUrl": "covid19/nationalcasedeath/csv/data.csv"
+				"relativeUrl": {
+					"value": "@dataset().rurl",
+					"type": "Expression"
+				}
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
