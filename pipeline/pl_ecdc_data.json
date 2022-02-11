@@ -101,11 +101,11 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"rurl": {
-											"value": "@pipeline().parameters.surl",
+											"value": "@item().rurl",
 											"type": "Expression"
 										},
 										"burl": {
-											"value": "@pipeline().parameters.sburl",
+											"value": "@item().burl",
 											"type": "Expression"
 										}
 									}
@@ -117,7 +117,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"filename": {
-											"value": "@pipeline().parameters.sfilename",
+											"value": "@item().sfilename",
 											"type": "Expression"
 										}
 									}
@@ -128,17 +128,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"surl": {
-				"type": "string"
-			},
-			"sfilename": {
-				"type": "string"
-			},
-			"sburl": {
-				"type": "string"
-			}
-		},
 		"annotations": []
 	}
 }
