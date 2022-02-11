@@ -12,7 +12,7 @@
 			"value": ""
 		},
 		"ls_ecdedata_properties_typeProperties_url": {
-			"value": "https://github.com/cloudboxacademy/"
+			"value": "@{linkedService().burl}"
 		},
 		"ls_popdl_properties_typeProperties_url": {
 			"value": "https://covidsadl1.dfs.core.windows.net"

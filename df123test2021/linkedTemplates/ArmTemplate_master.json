@@ -17,7 +17,7 @@
 		},
 		"ls_ecdedata_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://github.com/cloudboxacademy/"
+			"defaultValue": "@{linkedService().burl}"
 		},
 		"ls_popdl_properties_typeProperties_url": {
 			"type": "string",

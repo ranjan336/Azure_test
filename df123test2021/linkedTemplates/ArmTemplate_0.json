@@ -17,7 +17,7 @@
 		},
 		"ls_ecdedata_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://github.com/cloudboxacademy/"
+			"defaultValue": "@{linkedService().burl}"
 		},
 		"ls_popdl_properties_typeProperties_url": {
 			"type": "string",
@@ -54,6 +54,11 @@
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"parameters": {
+					"burl": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "HttpServer",
 				"typeProperties": {
@@ -129,6 +134,9 @@
 				},
 				"parameters": {
 					"rurl": {
+						"type": "string"
+					},
+					"burl": {
 						"type": "string"
 					}
 				},
@@ -504,7 +512,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "copy_death_cases",
+						"name": "copy_ecdc_data",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -555,6 +563,10 @@
 									"rurl": {
 										"value": "@pipeline().parameters.surl",
 										"type": "Expression"
+									},
+									"burl": {
+										"value": "@pipeline().parameters.sburl",
+										"type": "Expression"
 									}
 								}
 							}
@@ -582,6 +594,9 @@
 						"type": "string"
 					},
 					"sfilename": {
+						"type": "string"
+					},
+					"sburl": {
 						"type": "string"
 					}
 				},
