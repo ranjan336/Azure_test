@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_popdl'"
 		},
+		"ls_ecdedata_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://opendata.ecdc.europa.eu/"
+		},
 		"ls_popdl_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://covidsadl1.dfs.core.windows.net"
@@ -51,6 +55,9 @@
 					},
 					"ls_popdl_accountKey": {
 						"value": "[parameters('ls_popdl_accountKey')]"
+					},
+					"ls_ecdedata_properties_typeProperties_url": {
+						"value": "[parameters('ls_ecdedata_properties_typeProperties_url')]"
 					},
 					"ls_popdl_properties_typeProperties_url": {
 						"value": "[parameters('ls_popdl_properties_typeProperties_url')]"

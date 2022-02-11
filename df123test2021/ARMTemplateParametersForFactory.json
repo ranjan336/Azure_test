@@ -11,6 +11,9 @@
 		"ls_popdl_accountKey": {
 			"value": ""
 		},
+		"ls_ecdedata_properties_typeProperties_url": {
+			"value": "https://opendata.ecdc.europa.eu/"
+		},
 		"ls_popdl_properties_typeProperties_url": {
 			"value": "https://covidsadl1.dfs.core.windows.net"
 		}
