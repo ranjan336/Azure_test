@@ -11,7 +11,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "dailyadmission.csv",
-				"folderPath": "admissiondata",
+				"folderPath": "admissiondata/daily",
 				"fileSystem": "processed"
 			},
 			"columnDelimiter": ",",
