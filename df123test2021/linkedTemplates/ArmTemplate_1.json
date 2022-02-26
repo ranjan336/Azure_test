@@ -13,60 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/df_trns_deaths')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "df_raw_casedths",
-								"type": "DatasetReference"
-							},
-							"name": "casesdeathssrc"
-						},
-						{
-							"dataset": {
-								"referenceName": "dsctrylkp",
-								"type": "DatasetReference"
-							},
-							"name": "ctrylkp"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ds_process",
-								"type": "DatasetReference"
-							},
-							"name": "casesdeath"
-						}
-					],
-					"transformations": [
-						{
-							"name": "fltreu"
-						},
-						{
-							"name": "selcolumn"
-						},
-						{
-							"name": "Pivotcolmns"
-						},
-						{
-							"name": "lkpctry"
-						},
-						{
-							"name": "slcsync"
-						}
-					],
-					"script": "source(output(\n\t\tcountry as string,\n\t\tcountry_code as string,\n\t\tcontinent as string,\n\t\tpopulation as integer,\n\t\tindicator as string,\n\t\tdaily_count as integer,\n\t\tdate as date,\n\t\trate_14_day as double,\n\t\tsource as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> casesdeathssrc\nsource(output(\n\t\tcountry as string,\n\t\tcountry_code_2_digit as string,\n\t\tcountry_code_3_digit as string,\n\t\tcontinent as string,\n\t\tpopulation as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> ctrylkp\ncasesdeathssrc filter(continent == 'Europe' && not(isNull(country_code))) ~> fltreu\nfltreu select(mapColumn(\n\t\tcountry,\n\t\tcountry_code,\n\t\tpopulation,\n\t\tindicator,\n\t\tdaily_count,\n\t\tsource,\n\t\teach(match(name=='date'),\n\t\t\t'reported'+'_date' = $$)\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> selcolumn\nselcolumn pivot(groupBy(country,\n\t\tcountry_code,\n\t\tpopulation,\n\t\tsource,\n\t\treported_date),\n\tpivotBy(indicator, ['confirmedcases', 'deaths']),\n\tcount = sum(daily_count),\n\tcolumnNaming: '$V_$N',\n\tlateral: true) ~> Pivotcolmns\nPivotcolmns, ctrylkp lookup(Pivotcolmns@country == ctrylkp@country,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> lkpctry\nlkpctry select(mapColumn(\n\t\tcountry = Pivotcolmns@country,\n\t\tcountry_code,\n\t\tpopulation = Pivotcolmns@population,\n\t\tsource,\n\t\treported_date,\n\t\tconfirmedcases_count,\n\t\tdeaths_count,\n\t\tcountry = ctrylkp@country,\n\t\tcountry_code_2_digit,\n\t\tcountry_code_3_digit\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> slcsync\nslcsync sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['cases.csv'],\n\ttruncate: true,\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> casesdeath"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/Admissiondata')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -159,6 +105,110 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/df_trns_deaths')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "df_raw_casedths",
+								"type": "DatasetReference"
+							},
+							"name": "casesdeathssrc"
+						},
+						{
+							"dataset": {
+								"referenceName": "dsctrylkp",
+								"type": "DatasetReference"
+							},
+							"name": "ctrylkp"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_process",
+								"type": "DatasetReference"
+							},
+							"name": "casesdeath"
+						}
+					],
+					"transformations": [
+						{
+							"name": "fltreu"
+						},
+						{
+							"name": "selcolumn"
+						},
+						{
+							"name": "Pivotcolmns"
+						},
+						{
+							"name": "lkpctry"
+						},
+						{
+							"name": "slcsync"
+						}
+					],
+					"script": "source(output(\n\t\tcountry as string,\n\t\tcountry_code as string,\n\t\tcontinent as string,\n\t\tpopulation as integer,\n\t\tindicator as string,\n\t\tdaily_count as integer,\n\t\tdate as date,\n\t\trate_14_day as double,\n\t\tsource as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> casesdeathssrc\nsource(output(\n\t\tcountry as string,\n\t\tcountry_code_2_digit as string,\n\t\tcountry_code_3_digit as string,\n\t\tcontinent as string,\n\t\tpopulation as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> ctrylkp\ncasesdeathssrc filter(continent == 'Europe' && not(isNull(country_code))) ~> fltreu\nfltreu select(mapColumn(\n\t\tcountry,\n\t\tcountry_code,\n\t\tpopulation,\n\t\tindicator,\n\t\tdaily_count,\n\t\tsource,\n\t\teach(match(name=='date'),\n\t\t\t'reported'+'_date' = $$)\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> selcolumn\nselcolumn pivot(groupBy(country,\n\t\tcountry_code,\n\t\tpopulation,\n\t\tsource,\n\t\treported_date),\n\tpivotBy(indicator, ['confirmedcases', 'deaths']),\n\tcount = sum(daily_count),\n\tcolumnNaming: '$V_$N',\n\tlateral: true) ~> Pivotcolmns\nPivotcolmns, ctrylkp lookup(Pivotcolmns@country == ctrylkp@country,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> lkpctry\nlkpctry select(mapColumn(\n\t\tcountry = Pivotcolmns@country,\n\t\tcountry_code,\n\t\tpopulation = Pivotcolmns@population,\n\t\tsource,\n\t\treported_date,\n\t\tconfirmedcases_count,\n\t\tdeaths_count,\n\t\tcountry = ctrylkp@country,\n\t\tcountry_code_2_digit,\n\t\tcountry_code_3_digit\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> slcsync\nslcsync sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['cases.csv'],\n\ttruncate: true,\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> casesdeath"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl-hospadmission')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "df_hpsadmission",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "Admissiondata",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"hospitaladmission": {},
+									"countrylkp": {},
+									"Datedim": {},
+									"weeklysink": {},
+									"dlysnk": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/Admissiondata')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/processdeath')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -233,56 +283,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl-hospadmission')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "df_hpsadmission",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "Admissiondata",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"hospitaladmission": {},
-									"countrylkp": {},
-									"Datedim": {},
-									"weeklysink": {},
-									"dlysnk": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/Admissiondata')]"
-			]
 		}
 	]
 }
