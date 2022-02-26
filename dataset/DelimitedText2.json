@@ -11,7 +11,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "wklyadmission.csv",
-				"folderPath": "admissiondata",
+				"folderPath": "admissiondata/weekly",
 				"fileSystem": "processed"
 			},
 			"columnDelimiter": ",",
