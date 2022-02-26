@@ -1266,6 +1266,56 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ls_popdl')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl-hospadmission')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "df_hpsadmission",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "Admissiondata",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"hospitaladmission": {},
+									"countrylkp": {},
+									"Datedim": {},
+									"weeklysink": {},
+									"dlysnk": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/Admissiondata')]"
+			]
 		}
 	]
 }
