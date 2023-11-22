@@ -13,9 +13,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Create and switch to new branch
+      - name: Create new dev branch
         run: |
-          git checkout -b collab_new
-          git push origin collab_new
-
-      # Add more steps here as needed for your workflow
+          git checkout -b dev_new
+          git push origin dev_new
+      - name: Merge old dev to new
+        run: |
+          git checkout dev_new
+          git merge dev
+          git push dev_new
+      - name: Switch to new dev
+        run: |
+          git checkout dev
+          git branch -m dev_old
+          git push origin dev_old
+          git checkout dev_new
+          git branch -m dev
+          git push origin dev
+      - name: Delete old dev branch
+        run: |
+          git push origin --delete dev_old
