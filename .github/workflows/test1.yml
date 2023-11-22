@@ -1,0 +1,21 @@
+name: Copy Branch
+
+on:
+  push:
+    branches:
+      - collab  # Define the branch you want to trigger this action on
+
+jobs:
+  copy-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create and switch to new branch
+        run: |
+          git checkout -b collab_new
+          git push origin collab_new
+
+      # Add more steps here as needed for your workflow
