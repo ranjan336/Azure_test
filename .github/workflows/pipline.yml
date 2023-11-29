@@ -20,7 +20,7 @@ jobs:
       - name: Merge old dev to new
         run: |
           git checkout dev_new
-          git merge dev
+          git merge origin/dev
           git push origin dev_new
       - name: Switch to new dev
         run: |
