@@ -17,25 +17,22 @@ jobs:
         run: |
           git checkout -b dev_new
           git push origin dev_new
-      - name: Merge old dev to new
+
+      - name: Merge old dev into new
         run: |
+          git fetch origin dev:dev_old
           git checkout dev_new
-          git merge origin/dev
+          git merge dev_old
           git push origin dev_new
+
       - name: Switch to new dev
         run: |
           git checkout dev
-          # Check if dev_old branch exists before renaming
-          if git show-ref --quiet refs/heads/dev_old; then
-            git branch -m dev_old
-            git push origin dev_old --delete
-          fi
-          git checkout dev_new
+          git branch -m dev_old
+          git push origin dev_old
           git branch -m dev
           git push origin dev
+
       - name: Delete old dev branch
         run: |
-          #Check if dev_old branch exists before deleting
-          if git show-ref --quiet refs/heads/dev_old; then
-            git push origin dev_old --delete
-          fi
+          git push origin dev_old --delete
