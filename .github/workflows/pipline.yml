@@ -22,7 +22,7 @@ jobs:
         run: |
           git fetch origin dev:dev_old
           git checkout dev_new
-          git merge dev_old
+          git merge --allow-unrelated-histories dev_old
           git push origin dev_new
 
       - name: Switch to new dev
