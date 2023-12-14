@@ -26,20 +26,6 @@ jobs:
           git checkout -b dev_new
           git push origin dev_new
 
-      - name: Merge old dev to new
-        run: |
-          git checkout dev_new
-          git merge --allow-unrelated-histories origin/dev
-          git push origin dev_new
-
-
       - name: Switch to new dev and clean up
         run: |
-          #git branch -d dev 
-          #git push origin --delete dev
-          
-          git branch dev dev_new
-          git push origin :dev_new
-          git push origin dev
-         
-     
+          hub pull-request -b dev -h dev_new -m "Merge dev_new into dev" git checkout dev_new
