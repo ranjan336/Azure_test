@@ -28,4 +28,6 @@ jobs:
 
       - name: Switch to new dev and clean up
         run: |
-          hub pull-request -b dev -h dev_new -m "Merge dev_new into dev" git checkout dev_new
+          gh pr create --base dev dev_new -title "Merge dev_new into dev"
+          git checkout dev_new
+
