@@ -25,9 +25,14 @@ jobs:
         run: |
           git checkout -b dev_new
           git push origin dev_new
+      - name: Set up GitHub CLI
+        env:
+          GH_TOKEN: ${{ secrets.AZURETOKEN }}  # Using the default repository dispatch token
+        run: |
+          gh auth login --with-token <<<"${GH_TOKEN}"
 
       - name: Switch to new dev and clean up
         run: |
-          gh pr create --base dev --head dev_new --title "Merge dev_new into dev"
+          gh pr create --base dev_new --head dev --title "Merge dev into dev_new"
           git checkout dev_new
 
